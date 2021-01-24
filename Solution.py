@@ -35,6 +35,30 @@ def buildTheTree(line):
             currentProblem.root.right = currentNode
             left = 1
             right = 0
+    return currentProblem
+def solveTheTree(tree):
+    if tree is None:
+        return
+    left = solveTheTree(tree.left)
+    right = solveTheTree(tree.right)
+    if left is None and right is None:
+        return int(tree.value)
+    elif type(left) != int or type(right) != int:
+        raise Exception()
+    elif tree.value == '+':
+        return left + right
+    elif tree.value == '*':
+        return left * right
+    elif tree.value == '/':
+        if right == 0:
+            raise Exception()
+        else:
+            return left / right
+    elif tree.value == '-':
+        return left - right
 
 for line in sys.stdin:
-    buildTheTree(line.rstrip())
+    try:
+        print(solveTheTree(buildTheTree(line.rstrip()).root))
+    except:
+        print('Error')
